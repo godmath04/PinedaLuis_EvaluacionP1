@@ -20,3 +20,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.meme-home {
+    width: 400px;
+    height: 500px;
+    object-fit: cover;
+}
