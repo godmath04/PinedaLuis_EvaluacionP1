@@ -1,4 +1,8 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<PinedaL_Prueba1P>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PinedaL_Prueba1P") ?? throw new InvalidOperationException("Connection string 'PinedaL_Prueba1P' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
