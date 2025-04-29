@@ -25,4 +25,8 @@ body {
     width: 400px;
     height: 500px;
     object-fit: cover;
+    object-fit: cover;
+    border: 3px solid #444;
+    border-radius: 10px;
+    margin-top: 20px;
 }
