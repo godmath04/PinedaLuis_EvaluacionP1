@@ -1,4 +1,7 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function mostrarAlerta() {
+    const textoIngresado = document.getElementById('txtCampo').value;
+    const nombre = "Luis Pineda";
+    const hobbie = " el saxofón";
 
-// Write your JavaScript code.
+    alert(`Mi nombre es ${nombre}, mi hobbie es ${hobbie} y lo que ingresaste fue: ${textoIngresado}`);
+}
