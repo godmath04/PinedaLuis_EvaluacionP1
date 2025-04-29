@@ -55,12 +55,24 @@ namespace PinedaLuis_EvaluacionP1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ClienteId,Identificacion,Nombre,Email,Presupuesto,FechaRegistro,Edad,Individual")] Cliente cliente)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // pa ver los logs si hay errores
+            foreach (var key in ModelState.Keys)
+            {
+                var state = ModelState[key];
+                foreach (var error in state.Errors)
+                {
+                    Console.WriteLine($"Error en campo '{key}': {error.ErrorMessage}");
+                }
+            }
+
             return View(cliente);
         }
 

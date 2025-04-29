@@ -45,7 +45,7 @@ namespace PinedaLuis_EvaluacionP1.Models
 
         //Relacion con las recompensas
         public ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
-        public PlanRecompensa PlanRecompensa { get; set; }
+        //public PlanRecompensa? PlanRecompensa { get; set; }
 
 
 
