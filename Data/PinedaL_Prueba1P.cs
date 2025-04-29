@@ -15,4 +15,6 @@ using PinedaLuis_EvaluacionP1.Models;
         public DbSet<PinedaLuis_EvaluacionP1.Models.Cliente> Cliente { get; set; } = default!;
 
 public DbSet<PinedaLuis_EvaluacionP1.Models.Reserva> Reserva { get; set; } = default!;
+
+public DbSet<PinedaLuis_EvaluacionP1.Models.PlanRecompensa> PlanRecompensa { get; set; } = default!;
     }

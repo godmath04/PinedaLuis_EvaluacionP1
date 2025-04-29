@@ -12,15 +12,18 @@ namespace PinedaLuis_EvaluacionP1.Models
         [Required]
         public DateTime FechaSalida { get; set; }
 
+        [NotMapped]
         public int ValorPago
         {
             //Se considera que cada día de reserva cuesta 20
             get { return (int)(FechaSalida - FechaEntrada).TotalDays * 20; }
         }
 
-        public string ClienteIdentificacion { get; set; }
-        [ForeignKey("ClienteIdentificacion")]
-        public Cliente? Cliente { get; set; }
+        [Required]
+        public int ClienteId { get; set; }
+
+        [ForeignKey(nameof(ClienteId))]
+        public Cliente Cliente { get; set; }
 
     }
 }

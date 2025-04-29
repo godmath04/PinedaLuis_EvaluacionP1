@@ -9,23 +9,23 @@ using PinedaLuis_EvaluacionP1.Models;
 
 namespace PinedaLuis_EvaluacionP1.Controllers
 {
-    public class ReservasController : Controller
+    public class PlanRecompensasController : Controller
     {
         private readonly PinedaL_Prueba1P _context;
 
-        public ReservasController(PinedaL_Prueba1P context)
+        public PlanRecompensasController(PinedaL_Prueba1P context)
         {
             _context = context;
         }
 
-        // GET: Reservas
+        // GET: PlanRecompensas
         public async Task<IActionResult> Index()
         {
-            var pinedaL_Prueba1P = _context.Reserva.Include(r => r.Cliente);
+            var pinedaL_Prueba1P = _context.PlanRecompensa.Include(p => p.Cliente);
             return View(await pinedaL_Prueba1P.ToListAsync());
         }
 
-        // GET: Reservas/Details/5
+        // GET: PlanRecompensas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,42 +33,42 @@ namespace PinedaLuis_EvaluacionP1.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva
-                .Include(r => r.Cliente)
-                .FirstOrDefaultAsync(m => m.IdReserva == id);
-            if (reserva == null)
+            var planRecompensa = await _context.PlanRecompensa
+                .Include(p => p.Cliente)
+                .FirstOrDefaultAsync(m => m.IdRecompensa == id);
+            if (planRecompensa == null)
             {
                 return NotFound();
             }
 
-            return View(reserva);
+            return View(planRecompensa);
         }
 
-        // GET: Reservas/Create
+        // GET: PlanRecompensas/Create
         public IActionResult Create()
         {
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email");
             return View();
         }
 
-        // POST: Reservas/Create
+        // POST: PlanRecompensas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdReserva,FechaEntrada,FechaSalida,ClienteId")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("IdRecompensa,Nombre,PuntosAcumulados,TipoRecompensa,ClienteId")] PlanRecompensa planRecompensa)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reserva);
+                _context.Add(planRecompensa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
-            return View(reserva);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", planRecompensa.ClienteId);
+            return View(planRecompensa);
         }
 
-        // GET: Reservas/Edit/5
+        // GET: PlanRecompensas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,23 +76,23 @@ namespace PinedaLuis_EvaluacionP1.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva.FindAsync(id);
-            if (reserva == null)
+            var planRecompensa = await _context.PlanRecompensa.FindAsync(id);
+            if (planRecompensa == null)
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
-            return View(reserva);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", planRecompensa.ClienteId);
+            return View(planRecompensa);
         }
 
-        // POST: Reservas/Edit/5
+        // POST: PlanRecompensas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,FechaEntrada,FechaSalida,ClienteId")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("IdRecompensa,Nombre,PuntosAcumulados,TipoRecompensa,ClienteId")] PlanRecompensa planRecompensa)
         {
-            if (id != reserva.IdReserva)
+            if (id != planRecompensa.IdRecompensa)
             {
                 return NotFound();
             }
@@ -101,12 +101,12 @@ namespace PinedaLuis_EvaluacionP1.Controllers
             {
                 try
                 {
-                    _context.Update(reserva);
+                    _context.Update(planRecompensa);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReservaExists(reserva.IdReserva))
+                    if (!PlanRecompensaExists(planRecompensa.IdRecompensa))
                     {
                         return NotFound();
                     }
@@ -117,11 +117,11 @@ namespace PinedaLuis_EvaluacionP1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
-            return View(reserva);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", planRecompensa.ClienteId);
+            return View(planRecompensa);
         }
 
-        // GET: Reservas/Delete/5
+        // GET: PlanRecompensas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,35 +129,35 @@ namespace PinedaLuis_EvaluacionP1.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva
-                .Include(r => r.Cliente)
-                .FirstOrDefaultAsync(m => m.IdReserva == id);
-            if (reserva == null)
+            var planRecompensa = await _context.PlanRecompensa
+                .Include(p => p.Cliente)
+                .FirstOrDefaultAsync(m => m.IdRecompensa == id);
+            if (planRecompensa == null)
             {
                 return NotFound();
             }
 
-            return View(reserva);
+            return View(planRecompensa);
         }
 
-        // POST: Reservas/Delete/5
+        // POST: PlanRecompensas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reserva = await _context.Reserva.FindAsync(id);
-            if (reserva != null)
+            var planRecompensa = await _context.PlanRecompensa.FindAsync(id);
+            if (planRecompensa != null)
             {
-                _context.Reserva.Remove(reserva);
+                _context.PlanRecompensa.Remove(planRecompensa);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReservaExists(int id)
+        private bool PlanRecompensaExists(int id)
         {
-            return _context.Reserva.Any(e => e.IdReserva == id);
+            return _context.PlanRecompensa.Any(e => e.IdRecompensa == id);
         }
     }
 }

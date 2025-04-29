@@ -25,7 +25,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
         }
 
         // GET: Clientes/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -33,7 +33,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
             }
 
             var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.Identificacion == id);
+                .FirstOrDefaultAsync(m => m.ClienteId == id);
             if (cliente == null)
             {
                 return NotFound();
@@ -53,7 +53,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Identificacion,Nombre,Email,FechaNacimiento,Edad,Individual,Presupuesto")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("ClienteId,Identificacion,Nombre,Email,Presupuesto,FechaRegistro,Edad,Individual")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
         }
 
         // GET: Clientes/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -85,9 +85,9 @@ namespace PinedaLuis_EvaluacionP1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Identificacion,Nombre,Email,FechaNacimiento,Edad,Individual,Presupuesto")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Identificacion,Nombre,Email,Presupuesto,FechaRegistro,Edad,Individual")] Cliente cliente)
         {
-            if (id != cliente.Identificacion)
+            if (id != cliente.ClienteId)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClienteExists(cliente.Identificacion))
+                    if (!ClienteExists(cliente.ClienteId))
                     {
                         return NotFound();
                     }
@@ -116,7 +116,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
         }
 
         // GET: Clientes/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -124,7 +124,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
             }
 
             var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.Identificacion == id);
+                .FirstOrDefaultAsync(m => m.ClienteId == id);
             if (cliente == null)
             {
                 return NotFound();
@@ -136,7 +136,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var cliente = await _context.Cliente.FindAsync(id);
             if (cliente != null)
@@ -148,9 +148,9 @@ namespace PinedaLuis_EvaluacionP1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClienteExists(string id)
+        private bool ClienteExists(int id)
         {
-            return _context.Cliente.Any(e => e.Identificacion == id);
+            return _context.Cliente.Any(e => e.ClienteId == id);
         }
     }
 }

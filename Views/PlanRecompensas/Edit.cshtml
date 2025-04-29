@@ -1,4 +1,4 @@
-﻿@model PinedaLuis_EvaluacionP1.Models.Reserva
+﻿@model PinedaLuis_EvaluacionP1.Models.PlanRecompensa
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,22 +6,27 @@
 
 <h1>Edit</h1>
 
-<h4>Reserva</h4>
+<h4>PlanRecompensa</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdReserva" />
+            <input type="hidden" asp-for="IdRecompensa" />
             <div class="form-group">
-                <label asp-for="FechaEntrada" class="control-label"></label>
-                <input asp-for="FechaEntrada" class="form-control" />
-                <span asp-validation-for="FechaEntrada" class="text-danger"></span>
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FechaSalida" class="control-label"></label>
-                <input asp-for="FechaSalida" class="form-control" />
-                <span asp-validation-for="FechaSalida" class="text-danger"></span>
+                <label asp-for="PuntosAcumulados" class="control-label"></label>
+                <input asp-for="PuntosAcumulados" class="form-control" />
+                <span asp-validation-for="PuntosAcumulados" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoRecompensa" class="control-label"></label>
+                <input asp-for="TipoRecompensa" class="form-control" />
+                <span asp-validation-for="TipoRecompensa" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ClienteId" class="control-label"></label>
