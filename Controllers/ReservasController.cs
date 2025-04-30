@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -21,80 +20,82 @@ namespace PinedaLuis_EvaluacionP1.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            var pinedaL_Prueba1P = _context.Reserva.Include(r => r.Cliente);
-            return View(await pinedaL_Prueba1P.ToListAsync());
+            var reservas = _context.Reserva.Include(r => r.Cliente);
+            return View(await reservas.ToListAsync());
         }
 
         // GET: Reservas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var reserva = await _context.Reserva
                 .Include(r => r.Cliente)
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
-            if (reserva == null)
-            {
-                return NotFound();
-            }
 
-            return View(reserva);
+            return reserva == null ? NotFound() : View(reserva);
         }
 
         // GET: Reservas/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email");
+            CargarClientesDropDownList();
             return View();
         }
 
         // POST: Reservas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdReserva,FechaEntrada,FechaSalida,ClienteId")] Reserva reserva)
         {
+            if (reserva.FechaSalida <= reserva.FechaEntrada)
+            {
+                ModelState.AddModelError("FechaSalida", "La fecha de salida debe ser posterior a la fecha de entrada.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
+
+            // Debug de errores
+            foreach (var key in ModelState.Keys)
+            {
+                var state = ModelState[key];
+                foreach (var error in state.Errors)
+                {
+                    Console.WriteLine($"Error en campo '{key}': {error.ErrorMessage}");
+                }
+            }
+
+            CargarClientesDropDownList(reserva.ClienteId);
             return View(reserva);
         }
 
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var reserva = await _context.Reserva.FindAsync(id);
-            if (reserva == null)
-            {
-                return NotFound();
-            }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
+            if (reserva == null) return NotFound();
+
+            CargarClientesDropDownList(reserva.ClienteId);
             return View(reserva);
         }
 
         // POST: Reservas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdReserva,FechaEntrada,FechaSalida,ClienteId")] Reserva reserva)
         {
-            if (id != reserva.IdReserva)
+            if (id != reserva.IdReserva) return NotFound();
+
+            if (reserva.FechaSalida <= reserva.FechaEntrada)
             {
-                return NotFound();
+                ModelState.AddModelError("FechaSalida", "La fecha de salida debe ser posterior a la fecha de entrada.");
             }
 
             if (ModelState.IsValid)
@@ -106,38 +107,26 @@ namespace PinedaLuis_EvaluacionP1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReservaExists(reserva.IdReserva))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!ReservaExists(reserva.IdReserva)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
+
+            CargarClientesDropDownList(reserva.ClienteId);
             return View(reserva);
         }
 
         // GET: Reservas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var reserva = await _context.Reserva
                 .Include(r => r.Cliente)
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
-            if (reserva == null)
-            {
-                return NotFound();
-            }
 
-            return View(reserva);
+            return reserva == null ? NotFound() : View(reserva);
         }
 
         // POST: Reservas/Delete/5
@@ -149,15 +138,19 @@ namespace PinedaLuis_EvaluacionP1.Controllers
             if (reserva != null)
             {
                 _context.Reserva.Remove(reserva);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ReservaExists(int id)
         {
             return _context.Reserva.Any(e => e.IdReserva == id);
+        }
+
+        private void CargarClientesDropDownList(object selectedCliente = null)
+        {
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nombre", selectedCliente);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace PinedaLuis_EvaluacionP1.Models
         public int ClienteId { get; set; }
 
         [ForeignKey(nameof(ClienteId))]
-        public Cliente Cliente { get; set; }
+        public Cliente? Cliente { get; set; }
 
     }
 }

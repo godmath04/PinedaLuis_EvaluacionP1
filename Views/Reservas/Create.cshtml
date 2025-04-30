@@ -14,17 +14,18 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FechaEntrada" class="control-label"></label>
-                <input asp-for="FechaEntrada" class="form-control" />
+                <input asp-for="FechaEntrada" type="date" class="form-control" />
                 <span asp-validation-for="FechaEntrada" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaSalida" class="control-label"></label>
-                <input asp-for="FechaSalida" class="form-control" />
+                <input asp-for="FechaSalida" type="date" class="form-control" />
                 <span asp-validation-for="FechaSalida" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ClienteId" class="control-label"></label>
                 <select asp-for="ClienteId" class ="form-control" asp-items="ViewBag.ClienteId"></select>
+                <span asp-validation-for="ClienteId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

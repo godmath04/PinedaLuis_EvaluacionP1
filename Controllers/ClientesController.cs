@@ -56,6 +56,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
         public async Task<IActionResult> Create([Bind("ClienteId,Identificacion,Nombre,Email,Presupuesto,FechaRegistro,Edad,Individual")] Cliente cliente)
         {
 
+
             if (ModelState.IsValid)
             {
                 _context.Add(cliente);
