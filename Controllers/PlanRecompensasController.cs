@@ -47,7 +47,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
         // GET: PlanRecompensas/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email");
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nombre");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", planRecompensa.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nombre", planRecompensa.ClienteId);
             return View(planRecompensa);
         }
 
@@ -81,7 +81,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", planRecompensa.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nombre", planRecompensa.ClienteId);
             return View(planRecompensa);
         }
 
@@ -117,7 +117,7 @@ namespace PinedaLuis_EvaluacionP1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", planRecompensa.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nombre", planRecompensa.ClienteId);
             return View(planRecompensa);
         }
 
